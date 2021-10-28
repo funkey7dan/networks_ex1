@@ -8,10 +8,25 @@ s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 s.bind(('',PORT))
 
 while True:
-    data,addr = s.recvfrom(BUFFER)
-    if data.decode() == 'received':
+    received_bool = False
+    while not received_bool:
+        try:
+            data,addr = s.recvfrom(BUFFER)
+            if data:
+                print(str(data.decode('utf8')),end = '')
+                #print("Sent yes")
+                # while not s.sendto(data,addr):
+                #     print("in while")
+                #     s.sendto(data,addr)
+                received_bool = True
+        except:
+            continue
+   # data,addr = s.recvfrom(BUFFER)
+    #if data:
+     #   print(str(data.decode('utf8')),end = '')
         #print("Sent yes")
-        s.sendto(b'yes',addr)
-    else:
-        print(str(data.decode('utf8')))
-    s.sendto(data,addr)
+      #  s.sendto(data,addr)
+        #s.sendto(b'yes',addr)
+    # else:
+    #     print(str(data.decode('utf8')),end = '')
+    #s.sendto(data,addr)

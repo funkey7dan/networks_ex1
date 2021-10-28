@@ -7,39 +7,37 @@ PORT = int(sys.argv[2])
 file_name = sys.argv[3]
 file = open(file_name,mode = 'rb')
 s = socket(AF_INET,SOCK_DGRAM)
-s.settimeout(1)
+s.settimeout(10)
 
 bytes = file.read(BUFFER)
-sent = 0
-received = 0
+
 while bytes:
     s.sendto(bytes,(IP,PORT))
     print("sent\n" + bytes.decode())
-    sent += 1
     received_bool = False
     while not received_bool:
         try:
             data,addr = s.recvfrom(BUFFER)
-            if data.decode() == 'yes':
+            if data:
                 received_bool = True
+                bytes = file.read(BUFFER)
         except:
-            s.sendto(b'received',(IP,PORT))
+            s.sendto(bytes,(IP,PORT))
+            print("sent\n" + bytes.decode())
 
-    while received < sent:
-        try:
-            data,addr = s.recvfrom(BUFFER)
-            received += 1
-            #print(data)
-            bytes = file.read(BUFFER)
-            break
-        except:
-            print("No data")
-            #s.sendto(bytes,(IP,PORT))
-            #print("sent\n" + bytes.decode())  #print(data)
+    # while received < sent:
+    #     try:
+    #         data,addr = s.recvfrom(BUFFER)
+    #         received += 1
+    #         #print(data)
+    #         bytes = file.read(BUFFER)
+    #         break
+    #     except:
+    #         print("No data")
+    #         #s.sendto(bytes,(IP,PORT))
+    #         #print("sent\n" + bytes.decode())  #print(data)
 file.close()
 # data,addr = s.recvfrom(BUFFER)
 # print(data)
-if sent == received:
-    print("data matches")
 s.close()
 exit(0)
