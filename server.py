@@ -10,7 +10,8 @@ s.bind(('',PORT))
 while True:
     data,addr = s.recvfrom(BUFFER)
     if data.decode() == 'received':
-        print("Sent yes")
+        #print("Sent yes")
         s.sendto(b'yes',addr)
-    print(str(data.decode('utf8')),addr)
+    else:
+        print(str(data.decode('utf8')))
     s.sendto(data,addr)
