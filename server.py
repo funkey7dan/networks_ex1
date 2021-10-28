@@ -15,6 +15,7 @@ while True:
             if data:
                 print(str(data.decode('utf8')),end = '')
                 #print("Sent yes")
+                s.sendto(data,addr)
                 # while not s.sendto(data,addr):
                 #     print("in while")
                 #     s.sendto(data,addr)
