@@ -52,7 +52,7 @@ addr = BOB_ADDR
 
 while True:
     try:
-        drop = random.randrange(20)
+        drop = random.randrange(100)
         if (len(data) <= 100) and (drop < DROP_RATE):
 
             print(f'Phiiiii, no drop.... {drop}')
