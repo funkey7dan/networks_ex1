@@ -1,33 +1,27 @@
 import socket
 import sys
-IP = "10.0.2.4"
+
 PORT = int(sys.argv[1])
 BUFFER = 100
 
 s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 s.bind(('',PORT))
-
+received_indexes_list = []
 while True:
     received_bool = False
     while not received_bool:
         try:
             data,addr = s.recvfrom(BUFFER)
-            if data:
-                print(str(data.decode('utf8')),end = '')
-                #print("Sent yes")
-                s.sendto(data,addr)
-                # while not s.sendto(data,addr):
-                #     print("in while")
-                #     s.sendto(data,addr)
-                received_bool = True
-        except:
+            data_decoded = data.decode('utf8').split('_')
+            index = data_decoded[0]
+            data = data_decoded[1]
+            if index not in received_indexes_list:
+                # data_arr = bytearray(data)
+                # del data_arr[0]
+                print(data,end = '')
+                received_indexes_list.append(index)
+            received_bool = True
+            s.sendto(index.encode(),addr)
+        except Exception as e:
+            print(str(e)+"ERROR")
             continue
-   # data,addr = s.recvfrom(BUFFER)
-    #if data:
-     #   print(str(data.decode('utf8')),end = '')
-        #print("Sent yes")
-      #  s.sendto(data,addr)
-        #s.sendto(b'yes',addr)
-    # else:
-    #     print(str(data.decode('utf8')),end = '')
-    #s.sendto(data,addr)

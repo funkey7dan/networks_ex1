@@ -1,43 +1,32 @@
 from socket import socket,AF_INET,SOCK_DGRAM
 import sys
 
-BUFFER = 100
+BUFFER = 95
 IP = sys.argv[1]
 PORT = int(sys.argv[2])
 file_name = sys.argv[3]
 file = open(file_name,mode = 'rb')
 s = socket(AF_INET,SOCK_DGRAM)
-s.settimeout(10)
+s.settimeout(1)
 
 bytes = file.read(BUFFER)
-
+index = 0
 while bytes:
-    s.sendto(bytes,(IP,PORT))
-    print("sent\n" + bytes.decode())
+    s.sendto(str(index).encode()+b'_'+bytes,(IP,PORT))
+    print("sent\n" + str(index)+'_'+ bytes.decode())
     received_bool = False
     while not received_bool:
         try:
             data,addr = s.recvfrom(BUFFER)
-            if data:
+            print("received:\n"+data.decode())
+            if data.decode() == str(index):
                 received_bool = True
+                index += 1
                 bytes = file.read(BUFFER)
         except:
-            s.sendto(bytes,(IP,PORT))
-            print("sent\n" + bytes.decode())
+            s.sendto(str(index).encode()+b'_'+bytes,(IP,PORT))
+            print("sent\n"+str(index)+bytes.decode())
 
-    # while received < sent:
-    #     try:
-    #         data,addr = s.recvfrom(BUFFER)
-    #         received += 1
-    #         #print(data)
-    #         bytes = file.read(BUFFER)
-    #         break
-    #     except:
-    #         print("No data")
-    #         #s.sendto(bytes,(IP,PORT))
-    #         #print("sent\n" + bytes.decode())  #print(data)
 file.close()
-# data,addr = s.recvfrom(BUFFER)
-# print(data)
 s.close()
 exit(0)
