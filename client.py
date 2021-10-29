@@ -13,19 +13,19 @@ bytes = file.read(BUFFER)
 index = 0
 while bytes:
     s.sendto(str(index).encode()+b'_'+bytes,(IP,PORT))
-    print("sent\n" + str(index)+'_'+ bytes.decode())
+    #print("sent\n" + str(index)+'_'+ bytes.decode())
     received_bool = False
     while not received_bool:
         try:
             data,addr = s.recvfrom(BUFFER)
-            print("received:\n"+data.decode())
+            #print("received:\n"+data.decode())
             if data.decode() == str(index):
                 received_bool = True
                 index += 1
                 bytes = file.read(BUFFER)
         except:
             s.sendto(str(index).encode()+b'_'+bytes,(IP,PORT))
-            print("sent\n"+str(index)+bytes.decode())
+            #print("sent\n"+str(index)+bytes.decode())
 
 file.close()
 s.close()
