@@ -7,7 +7,7 @@ PORT = int(sys.argv[2])
 file_name = sys.argv[3]
 file = open(file_name,mode = 'rb')
 s = socket(AF_INET,SOCK_DGRAM)
-s.settimeout(1)
+s.settimeout(5)
 
 bytes = file.read(BUFFER)
 index = 0

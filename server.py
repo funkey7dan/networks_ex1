@@ -22,7 +22,7 @@ try:
                 data = data_decoded[1]
                 # if we didn't receive this data before, the index is not in our list, we print the data
                 if index not in received_indexes_list:
-                    print(data,end = '')
+                    print(data,end = '',flush = True)
                     # add the index to the list
                     received_indexes_list.append(index)
                 received_bool = True
