@@ -5,7 +5,11 @@ PORT = int(sys.argv[1])
 BUFFER = 100
 
 s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-s.bind(('',PORT))
+try:
+    s.bind(('',PORT))
+except Exception as e:
+    print("Error opening file!\n")
+    print(str(e))
 received_indexes_list = []  # list to hold all the indexes we already received
 
 # main script loop
