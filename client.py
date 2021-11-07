@@ -8,13 +8,13 @@ file_name = sys.argv[3]
 try:
     file = open(file_name,mode = 'rb')
 except Exception as e:
-    print("Error opening file!\n")
+    # print("Error opening file!\n")
     print(str(e))
 s = socket(AF_INET,SOCK_DGRAM)
 try:
     inet_aton(IP)
 except Exception as e:
-    print("IP error!\n")
+    # print("IP error!\n")
     print(str(e))
 s.settimeout(5)
 bytes = file.read(BUFFER)
@@ -40,7 +40,7 @@ try:
             except:
                 s.sendto(str(index).encode() + b'_' + bytes,(IP,PORT))
 except Exception as e:
-    print("Error running client\n")
+    # 21print("Error running client\n")
     print(str(e))
 finally:
     file.close()
